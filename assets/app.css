@@ -1,0 +1,68 @@
+
+.dark_mode_blue{
+    background-color: #292544; /* dark blue/purple */
+    color: #fff0bb; /* light yellow / eggshell-color */
+}
+
+.dark_mode_basic{
+background-color: #000; /* black */
+color: #fff;  /* white */
+}
+
+
+.light_mode{
+    background-color: #fff;  /* white */
+    color: #000; /* black */
+}
+
+.dark_mode_basic_input {
+background-color: #000; /* black */
+color: #fff;  /* white */
+margin-left: 5%;
+width: 20%;
+height: 25px;
+font-size: 15px;
+font-family: "Grandview";
+}
+
+.dark_mode_blue_input {
+background-color: #292544; /* dark blue/purple */
+color: #fff0bb; /* light yellow / eggshell-color */
+margin-left: 5%;
+width: 20%;
+height: 25px;
+font-size: 15px;
+font-family: "Grandview";
+}
+
+.light_mode_input {
+background-color: #fff;  /* white */
+color: #000; /* black */
+margin-left: 5%;
+width: 20%;
+height: 25px;
+font-size: 15px;
+font-family: "Grandview";
+}
+
+#chart-selector .light .Select-value-label {
+    color: #000; /* Schriftfarbe der Dropdown-Optionen */ /* black */
+}
+#chart-selector .blue_mode .Select-value-label {
+    color: #fff0bb; /* Schriftfarbe der Dropdown-Optionen */ /* light yellow / eggshell-color */
+}
+#chart-selector .dark_mode .Select-value-label {
+    color: #fff; /* Schriftfarbe der Dropdown-Optionen */   /* white */
+}
+
+#chart-selector .VirtualizedSelectSelectOption {
+    background-color: #000; /* black */
+    color: white;
+}
+#chart-selector .VirtualizedSelectFocusedOption {
+    background-color: #9bc200; /* green */
+    color: white;
+}
+#chart-selector .Select-menu-outer {
+    background-color: #989a9de1; /* grey - transparent */
+}
