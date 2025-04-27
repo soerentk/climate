@@ -19,4 +19,4 @@ The synchronized trajectories of both metrics underscore humanity’s profound i
 
 **Visualization:**  
 The dual-axis design facilitates direct comparison, with a shared timeline (X-axis) enabling synchronous analysis. The graph emphasizes the urgency of climate mitigation and serves as a scientific foundation for policy and societal action. This synthesis of data underscores the need for rapid decarbonization to curb further warming.
-![alt text](image.png)
+![alt text](assets/image-1.png)
