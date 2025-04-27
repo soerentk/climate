@@ -59,7 +59,7 @@ def register_callbacks(app):
         fig.add_trace(go.Scatter(
             x=filtered['year'],
             y=filtered['anomaly'],
-            name='temperature anaomaly (°C)',
+            name='temperature anomaly (°C)',
             line=dict(color='#e74c3c'),
             visible=selected_data in ['both', 'temp'],
             yaxis='y1'
