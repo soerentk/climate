@@ -11,78 +11,102 @@ import dash_daq as daq
 # TODO Durschnitsanomalien des Jahres als graph darstellen
 # TODO CO2 Belastung dataset finden
 # TODO CO2 Set über anomalie set legen und korrelationen zu verdeutlichen
-
+# Annahme: df_temp enthält Temperaturdaten, df_co2 enthält CO₂-Daten
+# Beispiel-Datenstruktur:
 
 def load_data():
-    df = pd.read_csv(
-        "data/dataset-average-anomaly.txt",
-        comment="%",
+    # CO₂-Data
+    df_co2 = pd.read_csv(
+        "data/dataset-co2.txt",
+        comment='#',
         sep='\s+',
-        names=["Date Number", "Year", "Month", "Day", "Day of Year", "Anomaly"],
-        header=None
+        header=None,
+        names=['year', 'co2_ppm', 'unc']
     )
-    df["Date"] = pd.to_datetime(df[["Year", "Month", "Day"]])
-    return df
+    
+    # Anomaly-Data
+    df_temp = pd.read_csv(
+        "data/dataset-average-anomaly.txt",
+        comment='%',
+        sep='\s+',
+        header=None,
+        names=['date_num', 'year', 'month', 'day', 'doy', 'anomaly']
+    )
+    
+    # Annual mean
+    annual_temp = df_temp.groupby('year')['anomaly'].mean().reset_index()
+    
+    # combinating at 1959
+    return pd.merge(
+        annual_temp[annual_temp['year'] >= 1959],
+        df_co2,
+        on='year',
+        how='inner'
+    )
 
 df = load_data()
 
-def average_anomalia_per_year():
-    df2 = pd.read_csv(
-        "data/dataset-average-anomaly.txt",
-        comment="%",
-        sep='\s+',
-        names=["Date Number", "Year", "Month", "Day", "Day of Year", "Anomaly"],
-        header=None
-    )
-    df2["Anomaly"] = 
-    df2["Date"] = pd.to_datetime(df[["Year", "Month", "Day"]])
-    return df2
+boolean_switch = daq.BooleanSwitch(id='my-boolean-switch', on=True, color="#99c000", className="switch")
 
-
-boolean_switch = daq.BooleanSwitch(id='my-boolean-switch', on=False, color="#99c000", className="switch")
 
 def init_applayout():
-
-    app_layout = html.Div(
-    [
-    html.H1("Climate Change Analysis", style={"textAlign": "center", "color": "#99c000"}),
-    dcc.Store(id="theme", data=0),
-    html.Div([
-        html.Div(className="switch", style={
+    app_layout = html.Div([
+       html.H1("Climate Analysis", style={'textAlign': 'center', 'padding': '20px', "color": "#99c000"}),
+       dcc.Store(id="theme", data=1),
+       html.Div(className="switch", style={
                     "margin-right": "20px",
-                    "display": "flex",
-                    "alignItems": "center",
+                    "display": "right",
+                    "alignItems": "right",
                     "gap": "5px"
 
                 }, children=[
                     boolean_switch,
 
                 ]),
-        dcc.Dropdown(
-            id="chart-selector",
-            options=[
-                {"label": "Tägliche Anomalien", "value": "daily"},
-                {"label": "Monatliche Durchschnitte", "value": "monthly"},
-                {"label": "Jährlicher Trend", "value": "yearly"}
-            ],
-            value="daily",
-            style={"width": "300px"},
-            className="light_mode",
-        ),
-        
-        dcc.RangeSlider(
-            id="year-slider",
-            min=df["Year"].min(),
-            max=df["Year"].max(),
-            step=10,
-            value=[1950, 2020],
-            marks={year: str(year) for year in range(1880, 2030, 20)}
-        )
-        ], style={"padding": "20px"}),
-
-        dcc.Graph(id="main-chart"),
-
-        dcc.Graph(id="heatmap")
+    dcc.Dropdown(
+        id='data-selector',
+        options=[
+            {'label': 'Both Data', 'value': 'both'},
+            {'label': 'Anomaly of temperature', 'value': 'temp'},
+            {'label': 'CO₂-Concentration', 'value': 'co2'}
+        ],
+        value='both',
+        style={'width': '50%', 'margin': '20px auto'}
+    ),
+    
+    dcc.Graph(id='climate-graph'),
+    
+    dcc.RangeSlider(
+        id='year-slider',
+        min=df['year'].min(),
+        max=df['year'].max(),
+        value=[df['year'].min(), df['year'].max()],
+        marks={str(year): str(year) for year in range(1959, 2025, 10)},
+        step=1
+    ),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
         ]
         ,
         id="wholepage"

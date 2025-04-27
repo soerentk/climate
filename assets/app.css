@@ -45,24 +45,24 @@ font-size: 15px;
 font-family: "Grandview";
 }
 
-#chart-selector .light .Select-value-label {
+#data-selector .light .Select-value-label {
     color: #000; /* Schriftfarbe der Dropdown-Optionen */ /* black */
 }
-#chart-selector .blue_mode .Select-value-label {
+#data-selector .blue_mode .Select-value-label {
     color: #fff0bb; /* Schriftfarbe der Dropdown-Optionen */ /* light yellow / eggshell-color */
 }
-#chart-selector .dark_mode .Select-value-label {
+#data-selector .dark_mode .Select-value-label {
     color: #fff; /* Schriftfarbe der Dropdown-Optionen */   /* white */
 }
 
-#chart-selector .VirtualizedSelectSelectOption {
+#data-selector .VirtualizedSelectSelectOption {
     background-color: #000; /* black */
     color: white;
 }
-#chart-selector .VirtualizedSelectFocusedOption {
+#data-selector .VirtualizedSelectFocusedOption {
     background-color: #9bc200; /* green */
     color: white;
 }
-#chart-selector .Select-menu-outer {
+#data-selector .Select-menu-outer {
     background-color: #989a9de1; /* grey - transparent */
 }

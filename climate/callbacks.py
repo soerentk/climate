@@ -35,20 +35,14 @@ dark_mode_style_black = {
 }
 
 def register_callbacks(app):
-
-
-
+    
     @app.callback(
-        [Output("main-chart", "figure"),
-        Output("heatmap", "figure")],
-        [Input("chart-selector", "value"),
-        Input("year-slider", "value"),
-        Input("theme", "data"),
-]
+    Output('climate-graph', 'figure'),
+    [Input('data-selector', 'value'),
+     Input('year-slider', 'value'),
+     Input("theme", "data"),]
     )
-    def update_charts(selected_chart, years, theme_value):
-        filtered_df = fr.df[(fr.df["Year"] >= years[0]) & (fr.df["Year"] <= years[1])]
-        
+    def update_graph(selected_data, years, theme_value):
 
         if theme_value == 1:
             template = "plotly"
@@ -57,56 +51,69 @@ def register_callbacks(app):
         if theme_value == 3:
             template = "plotly_dark"
 
-        # Hauptchart
-        if selected_chart == "daily":
-            fig_main = px.line(
-                filtered_df,
-                x="Date",
-                y="Anomaly",
-                title="Tägliche Temperaturanomalien",
-                labels={"Anomaly": "Abweichung (°C)"},
-                template= template
-            )
-        elif selected_chart == "monthly":
-            monthly = filtered_df.groupby(["Year", "Month"])["Anomaly"].mean().reset_index()
-            fig_main = px.bar(
-                monthly,
-                x="Year",
-                y="Anomaly",
-                color="Month",
-                title="Monatliche Durchschnittsabweichungen",
-                color_continuous_scale="Portland",
-                template=template
-            )
-        else:
-            yearly = filtered_df.groupby("Year")["Anomaly"].mean().reset_index()
-            fig_main = px.scatter(
-                yearly,
-                x="Year",
-                y="Anomaly",
-                trendline="lowess",
-                title="Jährlicher Trend mit Glättung",
-                template=template
-            )
+        filtered = df[(df['year'] >= years[0]) & (df['year'] <= years[1])]
         
-        # Heatmap
-        heatmap_df = filtered_df.groupby(["Year", "Month"])["Anomaly"].mean().reset_index()
-        heatmap_fig = px.density_heatmap(
-            heatmap_df,
-            x="Year",
-            y="Month",
-            z="Anomaly",
-            nbinsx=30,
-            nbinsy=12,
-            color_continuous_scale="RdBu_r",
-            title="Monatliche Anomalien Heatmap",
-            template=template
+        fig = go.Figure()
+        
+        # Temperaturanomalie
+        fig.add_trace(go.Scatter(
+            x=filtered['year'],
+            y=filtered['anomaly'],
+            name='Temperaturanomalie (°C)',
+            line=dict(color='#e74c3c'),
+            visible=selected_data in ['both', 'temp'],
+            yaxis='y1'
+        ))
+        
+        # CO₂-Hauptlinie
+        fig.add_trace(go.Scatter(
+            x=filtered['year'],
+            y=filtered['co2_ppm'],
+            name='CO₂ (ppm)',
+            line=dict(color='#3498db'),
+            visible=selected_data in ['both', 'co2'],
+            yaxis='y2'
+        ))
+        
+        # CO₂-Unsicherheitsbereich
+        fig.add_trace(go.Scatter(
+            x=filtered['year'].tolist() + filtered['year'].tolist()[::-1],
+            y=(filtered['co2_ppm'] + filtered['unc']).tolist() + 
+            (filtered['co2_ppm'] - filtered['unc']).tolist()[::-1],
+            fill='toself',
+            fillcolor='rgba(52, 152, 219, 0.2)',
+            line=dict(color='rgba(255,255,255,0)'),
+            name='CO₂-unc',
+            showlegend=False,
+            visible=selected_data in ['both', 'co2'],
+            yaxis='y2'
+        ))
+        
+        fig.update_layout(
+            title=f'Climate-Data {years[0]}-{years[1]}',
+            xaxis_title='Year',
+            yaxis=dict(
+                title='anomalie of temperatur (°C)',
+                # titlefont=dict(color='#e74c3c'),
+                # tickfont=dict(color='#e74c3c'),
+                range=[df['anomaly'].min()-0.1, df['anomaly'].max()+0.1]
+            ),
+            yaxis2=dict(
+                title='CO₂-Conzentration (ppm)',
+                # titlefont=dict(color='#3498db'),
+                # tickfont=dict(color='#3498db'),
+                overlaying='y',
+                side='right',
+                range=[df['co2_ppm'].min()-10, df['co2_ppm'].max()+10]
+            ),
+            hovermode='x unified',
+            legend=dict(x=0.05, y=0.95),
+            template=template,
+            margin=dict(l=70, r=70, t=70, b=70)
         )
         
-        return fig_main, heatmap_fig
-
-
-
+        return fig
+    
     @app.callback(
         Output('theme', 'data'),
         Input('my-boolean-switch', 'on')
@@ -131,10 +138,9 @@ def register_callbacks(app):
         elif not on:
             return 1
         
-
     @app.callback(
-        Output('wholepage', 'className'),
-        Input('theme', 'data')
+    Output('wholepage', 'className'),
+    Input('theme', 'data')
     )
     def update_all_style(is_dark_mode):
         """
@@ -160,10 +166,11 @@ def register_callbacks(app):
 
         return style
     
+
     @app.callback(
-        [Output('chart-selector', 'style'),
-        Output('chart-selector', 'className'),],
-        Input('theme', 'data')
+    [Output('data-selector', 'style'),
+    Output('data-selector', 'className'),],
+    Input('theme', 'data')
     )
     def dropdown_darkmode(is_dark_mode):
           #style dropdown: for style changes
