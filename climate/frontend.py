@@ -8,12 +8,6 @@ import climate.frontend as frontend
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 
-# TODO Durschnitsanomalien des Jahres als graph darstellen
-# TODO CO2 Belastung dataset finden
-# TODO CO2 Set über anomalie set legen und korrelationen zu verdeutlichen
-# Annahme: df_temp enthält Temperaturdaten, df_co2 enthält CO₂-Daten
-# Beispiel-Datenstruktur:
-
 def load_data():
     # CO₂-Data
     df_co2 = pd.read_csv(

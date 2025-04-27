@@ -116,20 +116,7 @@ def register_callbacks(app):
         Input('my-boolean-switch', 'on')
     )
     def update_output(on):
-        """
-        Updates the theme data based on the state of the boolean switch.
-
-        Parameters:
-        -----------
-        on : bool
-            The state of the boolean switch. If True, dark mode is enabled. If False, light mode is enabled.
-
-        Returns:
-        --------
-        int
-            The theme data. 1 for light mode, 3 for dark mode.
-        """
-
+       
         if on:
             return 3
         elif not on:
@@ -140,20 +127,7 @@ def register_callbacks(app):
     Input('theme', 'data')
     )
     def update_all_style(is_dark_mode):
-        """
-        Updates the style of the whole page based on the theme data.
 
-        Parameters:
-        -----------
-        is_dark_mode : int
-            The theme data. 1 for light mode, 2 for dark blue mode, 3 for dark mode.
-
-        Returns:
-        --------
-        str
-            The class name corresponding to the selected theme.
-        """
-        
         if is_dark_mode == 1:
             style = "light_mode"
         if is_dark_mode == 2:

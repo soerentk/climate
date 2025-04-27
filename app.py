@@ -11,12 +11,8 @@ import dash_bootstrap_components as dbc
 import dash_daq as daq
 import climate.frontend as fr
 
-
-
-
-# Dash-App initialisieren
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-server = app.server  # Für Deployment benötigt
+server = app.server 
 
 
 def main():
