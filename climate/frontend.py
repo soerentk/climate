@@ -66,7 +66,7 @@ def init_applayout():
     dcc.Dropdown(
         id='data-selector',
         options=[
-            {'label': 'Both Data', 'value': 'both'},
+            {'label': 'CO2 & Temp.', 'value': 'both'},
             {'label': 'Anomaly of temperature', 'value': 'temp'},
             {'label': 'CO₂-Concentration', 'value': 'co2'}
         ],
