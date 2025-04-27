@@ -55,17 +55,17 @@ def register_callbacks(app):
         
         fig = go.Figure()
         
-        # Temperaturanomalie
+        # Temperature anomaly
         fig.add_trace(go.Scatter(
             x=filtered['year'],
             y=filtered['anomaly'],
-            name='temperatur anaomaly (°C)',
+            name='temperature anaomaly (°C)',
             line=dict(color='#e74c3c'),
             visible=selected_data in ['both', 'temp'],
             yaxis='y1'
         ))
         
-        # CO₂-Hauptlinie
+        # CO₂-mainline
         fig.add_trace(go.Scatter(
             x=filtered['year'],
             y=filtered['co2_ppm'],
@@ -75,7 +75,7 @@ def register_callbacks(app):
             yaxis='y2'
         ))
         
-        # CO₂-Unsicherheitsbereich
+        # CO₂-unc
         fig.add_trace(go.Scatter(
             x=filtered['year'].tolist() + filtered['year'].tolist()[::-1],
             y=(filtered['co2_ppm'] + filtered['unc']).tolist() + 
@@ -93,15 +93,12 @@ def register_callbacks(app):
             title=f'Climate-Data {years[0]}-{years[1]}',
             xaxis_title='Year',
             yaxis=dict(
-                title='anomalie of temperatur (°C)',
-                # titlefont=dict(color='#e74c3c'),
-                # tickfont=dict(color='#e74c3c'),
+                title='anomalie of temperature (°C)',
+
                 range=[df['anomaly'].min()-0.1, df['anomaly'].max()+0.1]
             ),
             yaxis2=dict(
                 title='CO₂-Concentration (ppm)',
-                # titlefont=dict(color='#3498db'),
-                # tickfont=dict(color='#3498db'),
                 overlaying='y',
                 side='right',
                 range=[df['co2_ppm'].min()-10, df['co2_ppm'].max()+10]
