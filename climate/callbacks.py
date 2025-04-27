@@ -59,7 +59,7 @@ def register_callbacks(app):
         fig.add_trace(go.Scatter(
             x=filtered['year'],
             y=filtered['anomaly'],
-            name='Temperaturanomalie (°C)',
+            name='temperatur anaomaly (°C)',
             line=dict(color='#e74c3c'),
             visible=selected_data in ['both', 'temp'],
             yaxis='y1'
@@ -99,7 +99,7 @@ def register_callbacks(app):
                 range=[df['anomaly'].min()-0.1, df['anomaly'].max()+0.1]
             ),
             yaxis2=dict(
-                title='CO₂-Conzentration (ppm)',
+                title='CO₂-Concentration (ppm)',
                 # titlefont=dict(color='#3498db'),
                 # tickfont=dict(color='#3498db'),
                 overlaying='y',
